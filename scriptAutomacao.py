@@ -10,15 +10,15 @@ linhaInicial = 1
 quantidadeLinhasParaLer = 149   
 colunasComDados = 'A:K'
 
-driver_path = r'C:\Users\rlvju\Área de Trabalho\automacaoDeCilindros\chromedriver-win64\chromedriver.exe'
-caminhoPlanilhCilindros = r'C:\Users\rlvju\Área de Trabalho\automacaoDeCilindros\Pedidos.xlsx'
-caminhoPlanilhaColetas = r'C:\Users\rlvju\Área de Trabalho\automacaoDeCilindros\Coletas.xlsx'
+driver_path = r'caminho para chromedriver.exe'
+caminhoPlanilhPedidos = r'caminho para planilha com dados dos clientes que as coletas precisam ser geradas'
+caminhoPlanilhaColetas = r'caminho para planilha onde serão salva as coletas e códigos de rastereio'
 
-df = pd.read_excel(caminhoPlanilhCilindros, header=0, skiprows=range(1, linhaInicial), nrows=quantidadeLinhasParaLer, usecols=colunasComDados)
+df = pd.read_excel(caminhoPlanilhPedidos, header=0, skiprows=range(1, linhaInicial), nrows=quantidadeLinhasParaLer, usecols=colunasComDados)
 df_coletas = pd.DataFrame(columns=['CPF', 'Código de Coleta', 'Código de Rastreio'])
 
 options = webdriver.ChromeOptions()
-options.add_experimental_option("debuggerAddress", "localhost:9222")
+options.add_experimental_option("debuggerAddress", "localhost:1111")
 
 service = Service(driver_path)
 driver = webdriver.Chrome(service=service, options=options)
@@ -59,7 +59,7 @@ for _, linha in df.iterrows():
     cidade = linha['CIDADE']
     uf = linha['UF']
     ddd = ['11']
-    telefone = ['30039030']
+    telefone = ['11112222']
     email = linha['EMAIL']
     pedido = linha['PEDIDO']
 
@@ -104,10 +104,10 @@ for _, linha in df.iterrows():
         driver.find_element(By.NAME, 'remTelefone').send_keys(telefone)
         driver.find_element(By.NAME, 'remEmail').send_keys(email)
         driver.find_element(By.NAME, 'objControleCliente').send_keys(pedido)
-        driver.find_element(By.NAME, 'objDescricao').send_keys('Cilindro Refil de CO2 60 Litros Sodastream')
-        driver.find_element(By.NAME, 'objValorDeclarado1').send_keys('320')
+        driver.find_element(By.NAME, 'objDescricao').send_keys('Produto')
+        driver.find_element(By.NAME, 'objValorDeclarado1').send_keys('10')
         driver.find_element(By.NAME, 'objValorDeclarado2').send_keys('00')
-        driver.find_element(By.NAME, 'destIdentificacao').send_keys('01490698006689')
+        driver.find_element(By.NAME, 'destIdentificacao').send_keys('CPNJ')
 
         botaoEnviar = driver.find_element(By.XPATH, "//input[@value='Enviar Solicitação']")
         botaoEnviar.click()
